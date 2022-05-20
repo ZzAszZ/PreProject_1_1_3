@@ -53,9 +53,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
 
-        try (Statement statement = connection.createStatement()){
-            statement.executeUpdate("DELETE FROM users WHERE Id = "+ id);
-            System.out.println("User " + id + "deleted");
+        try (PreparedStatement ppsm = connection.prepareStatement("DELETE FROM users WHERE id = ?" )){
+            ppsm.setInt(1, (int) id);
+            ppsm.executeUpdate();
+            System.out.println("User " + id + " deleted");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,15 +67,17 @@ public class UserDaoJDBCImpl implements UserDao {
         List<User> users = new ArrayList<>();
 
         String sql = "SELECT id, name, lastName, age from users";
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
+        try (PreparedStatement ppsm = connection.prepareStatement(sql)) {
+            ResultSet resultSet = ppsm.executeQuery();
             while (resultSet.next()){
                 User user = new User();
-                user.setId(resultSet.getLong("id"));
-                user.setName(resultSet.getString("name"));
-                user.setLastName(resultSet.getString("lastName"));
-                user.setAge(resultSet.getByte("age"));
+                user.setId(resultSet.getLong(1));
+                user.setName(resultSet.getString(2));
+                user.setLastName(resultSet.getString(3));
+                user.setAge(resultSet.getByte(4));
+
                 users.add(user);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
