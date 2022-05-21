@@ -1,6 +1,9 @@
 package jm.task.core.jdbc.dao;
+
 import jm.task.core.jdbc.model.User;
-import org.hibernate.*;
+import jm.task.core.jdbc.util.Util;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -17,12 +20,13 @@ public class UserDaoHibernateImpl implements UserDao {
     public void createUsersTable() {
         Session session = getSessionFactory().openSession();
         Transaction ta = session.beginTransaction();
-        session.createNativeQuery("CREATE TABLE IF NOT EXISTS users " +
-                "(id int  NOT NULL PRIMARY KEY AUTO_INCREMENT, " +
-                "name VARCHAR(45) NOT NULL, " +
-                "lastName VARCHAR(45) NOT NULL, age INT)").executeUpdate();
+        session.createNativeQuery("CREATE TABLE IF NOT EXISTS leanbase.users" +
+                " (id mediumint not null auto_increment, name VARCHAR(45), " +
+                "lastname VARCHAR(45), " +
+                "age tinyint, " +
+                "PRIMARY KEY (id))").executeUpdate();
         ta.commit();
-        System.out.println("Table created!");
+        System.out.println("Table create!");
         session.close();
 
 
@@ -32,9 +36,9 @@ public class UserDaoHibernateImpl implements UserDao {
     public void dropUsersTable() {
         Session session = getSessionFactory().openSession();
         Transaction ta = session.beginTransaction();
-        session.createNativeQuery("DROP TABLE IF EXISTS users").executeUpdate();
+        session.createNativeQuery("DROP TABLE IF EXISTS leanbase.users").executeUpdate();
         ta.commit();
-        System.out.println("Table deleted!");
+        System.out.println("Table delete!");
         session.close();
 
     }
@@ -45,7 +49,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction ta = session.beginTransaction();
         session.save(new User(name, lastName, age));
         ta.commit();
-        System.out.println("User saved!");
+        System.out.println("User save!");
         session.close();
 
     }
@@ -56,7 +60,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction ta = session.beginTransaction();
         session.delete(session.get(User.class, id));
         ta.commit();
-        System.out.println("User deleted!");
+        System.out.println("User  delete!");
         session.close();
 
     }
@@ -72,9 +76,9 @@ public class UserDaoHibernateImpl implements UserDao {
     public void cleanUsersTable() {
         Session session = getSessionFactory().openSession();
         Transaction ta = session.beginTransaction();
-        session.createNativeQuery("TRUNCATE TABLE users").executeUpdate();
+        session.createNativeQuery("TRUNCATE TABLE leanbase.users").executeUpdate();
         ta.commit();
-        System.out.println("Table cleaned");
+        System.out.println("Table cleaned!");
         session.close();
 
     }

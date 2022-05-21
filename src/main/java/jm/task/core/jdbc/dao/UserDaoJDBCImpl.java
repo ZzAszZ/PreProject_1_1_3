@@ -3,21 +3,16 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
     public UserDaoJDBCImpl() {
-
     }
 
-   // private final Connection connection = Util.getConnection();
+    // private final Connection connection = Util.getConnection();
 
     public void createUsersTable() {
         /*
@@ -92,10 +87,10 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return users;
 
  */
-return null;
+        return null;
+
     }
 
     public void cleanUsersTable() {
@@ -105,7 +100,9 @@ return null;
             System.out.println("Table Clean");
         } catch (SQLException e) {
             e.printStackTrace();
-      } */
+        }
+    }
+         */
+
     }
 }
-

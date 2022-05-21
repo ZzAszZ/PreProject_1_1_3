@@ -1,6 +1,5 @@
 package jm.task.core.jdbc.model;
-import java.util.ArrayList;
-import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,21 +9,27 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
+    @Column //(name = "name")
     private String name;
-    @Column
+
+    @Column //(lastName = "lastName")
     private String lastName;
-    @Column
+
+    @Column //(age = "age")
     private Byte age;
 
     public User() {
+
     }
+
 
     public User(String name, String lastName, Byte age) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
     }
+
     public Long getId() {
         return id;
     }
