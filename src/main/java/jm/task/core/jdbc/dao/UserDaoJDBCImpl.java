@@ -3,23 +3,19 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
     public UserDaoJDBCImpl() {
-
     }
 
     private final Connection connection = Util.getConnection();
 
     public void createUsersTable() {
+
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (id int  NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(45) NOT NULL, lastName VARCHAR(45) NOT NULL, age INT)");
             System.out.println("The table was created");
@@ -29,6 +25,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
+
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE IF EXISTS users");
             System.out.println("The table deleted");
@@ -54,12 +51,13 @@ public class UserDaoJDBCImpl implements UserDao {
     public void removeUserById(long id) {
 
         try (PreparedStatement ppsm = connection.prepareStatement("DELETE FROM users WHERE id = ?" )){
-            ppsm.setInt(1, (int) id);
+            ppsm.setLong(1, id);
             ppsm.executeUpdate();
             System.out.println("User " + id + " deleted");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     public List<User> getAllUsers() {
@@ -82,11 +80,13 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return users;
 
     }
 
     public void cleanUsersTable() {
+
         try (Statement statement = connection.createStatement()){
             statement.executeUpdate("DELETE FROM users");
             System.out.println("Table Clean");
@@ -94,7 +94,4 @@ public class UserDaoJDBCImpl implements UserDao {
             e.printStackTrace();
         }
     }
-
-
 }
-
