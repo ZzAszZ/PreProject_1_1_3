@@ -20,10 +20,10 @@ import java.util.Properties;
 import static java.lang.System.setProperty;
 
 public class Util {
-    //private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    //private static final String URL = "jdbc:mysql://localhost:3306/leanbase";
-    //private static final String USER = "root";
-    //private static final String PASS = "dom5132478";
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://localhost:3306/leanbase?serverTimezone=Europe/Moscow";
+    private static final String USER = "root";
+    private static final String PASS = "dom5132478";
 
     private static SessionFactory sessionFactory = null;
 
@@ -32,10 +32,10 @@ public class Util {
             try {
                 Configuration configuration = new Configuration();
                 Properties settings = new Properties();
-                settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/leanbase?serverTimezone=Europe/Moscow");
-                settings.put(Environment.USER, "root");
-                settings.put(Environment.PASS, "dom5132478");
+                settings.put(Environment.DRIVER, DRIVER);
+                settings.put(Environment.URL, URL);
+                settings.put(Environment.USER, USER);
+                settings.put(Environment.PASS, PASS);
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
                 settings.put(Environment.SHOW_SQL, "true");
                 configuration.setProperties(settings);
@@ -50,7 +50,6 @@ public class Util {
         return sessionFactory;
     }
 
-/*
     public static Connection getConnection() {
         Connection connection = null;
         try {
@@ -63,8 +62,6 @@ public class Util {
         }
         return connection;
     }
- */
-
 
 
 }

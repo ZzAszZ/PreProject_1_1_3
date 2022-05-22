@@ -10,6 +10,12 @@ import java.util.List;
 import static jm.task.core.jdbc.util.Util.getSessionFactory;
 
 public class UserDaoHibernateImpl implements UserDao {
+
+   private static Session session = getSessionFactory().openSession();
+   private static Transaction ta = session.beginTransaction();   // Не могу понять вынести вот так вот транзакцию можно
+                                                                    // или лучше так не делать ?
+
+
     public UserDaoHibernateImpl() {
 
     }
@@ -18,8 +24,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        Session session = getSessionFactory().openSession();
-        Transaction ta = session.beginTransaction();
+
         session.createNativeQuery("CREATE TABLE IF NOT EXISTS leanbase.users" +
                 " (id mediumint not null auto_increment, name VARCHAR(45), " +
                 "lastname VARCHAR(45), " +
@@ -34,8 +39,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        Session session = getSessionFactory().openSession();
-        Transaction ta = session.beginTransaction();
+
         session.createNativeQuery("DROP TABLE IF EXISTS leanbase.users").executeUpdate();
         ta.commit();
         System.out.println("Table delete!");
@@ -45,8 +49,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        Session session = getSessionFactory().openSession();
-        Transaction ta = session.beginTransaction();
+
         session.save(new User(name, lastName, age));
         ta.commit();
         System.out.println("User save!");
@@ -56,26 +59,27 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        Session session = getSessionFactory().openSession();
-        Transaction ta = session.beginTransaction();
+
         session.delete(session.get(User.class, id));
         ta.commit();
-        System.out.println("User  delete!");
+        System.out.println("User" + id + "delete!");
         session.close();
 
     }
 
     @Override
     public List<User> getAllUsers() {
+
         List<User> users = (List<User>)  getSessionFactory().openSession().createQuery("From User").list();
         System.out.println(users.toString());
+        ta.commit();
         return users;
+
     }
 
     @Override
     public void cleanUsersTable() {
-        Session session = getSessionFactory().openSession();
-        Transaction ta = session.beginTransaction();
+
         session.createNativeQuery("TRUNCATE TABLE leanbase.users").executeUpdate();
         ta.commit();
         System.out.println("Table cleaned!");
